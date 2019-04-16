@@ -2,12 +2,12 @@ package juego;
 
 public class Cartas {
 	public int numero;
-	public String palo;
+	public int palo;
 	public Cartas(int a,int b) {
-		this.palo=clasificar(a);
+		this.palo=a;
 		this.numero=b;
 	}
-	public String clasificar(int n) {
+	public static String clasificar(int n) {
 		if (n==1) {
 			return "Basto";
 		}

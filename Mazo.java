@@ -3,14 +3,14 @@ package juego;
 import java.util.Random;
 
 public class Mazo {
-	Cartas[] cartas;
-	Cartas [] cartasUsadas;
+	public Cartas[] cartas;
+	private Cartas [] cartasUsadas;
 	Random r=new Random();
 	public Mazo() {
-		this.cartas=new Cartas[50];
+		this.cartas=new Cartas[48];
 		int j=0;
-		for (int i=0;i<=4;i++) {
-			for (int k=0;k<=50;k++) {
+		for (int i=1;i<=4;i++) {
+			for (int k=1;k<=12;k++) {
 				cartas[j++]= new Cartas(i,k);
 			}
 		}
@@ -24,6 +24,7 @@ public class Mazo {
 			cartas[k1]=aux;
 		}
 	}
+	//Funcion que se encarga de agregar las cartas repetidas
 	private static Cartas[] agregarAUsadas(Cartas[] lista , Cartas c) {
 		Cartas[] aux= new Cartas[lista.length+1];
 		for (int i=0;i<aux.length;i++) {
@@ -35,6 +36,7 @@ public class Mazo {
 		}
 		return aux;
 	}
+	//Verifica si la carta no fue usada, y agrega esa carta en caso contrario.
 	private boolean estaUsada(Cartas[] lista, Cartas c) {
 		for (int i=0;i<lista.length;i++) {
 			if (lista[i]==c) {
