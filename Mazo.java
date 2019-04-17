@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Mazo {
 	public Cartas[] cartas;
-	private Cartas [] cartasUsadas;
+	public Cartas [] cartasUsadas=new Cartas[0];
 	Random r=new Random();
 	public Mazo() {
 		this.cartas=new Cartas[48];
@@ -24,9 +24,16 @@ public class Mazo {
 			cartas[k1]=aux;
 		}
 	}
+	/*
+	public void imprimirMazo(Cartas[] lista) {
+		for (int i=0;i<lista.length;i++) {
+			System.out.print(lista[i].numero+" ");
+			System.out.print(lista[i].palo+" ");
+		}
+	}*/
 	//Funcion que se encarga de agregar las cartas repetidas
 	private static Cartas[] agregarAUsadas(Cartas[] lista , Cartas c) {
-		Cartas[] aux= new Cartas[lista.length+1];
+		Cartas[] aux= new Cartas[lista.length];
 		for (int i=0;i<aux.length;i++) {
 			if (i==aux.length-1) {
 				aux[i]=c;
@@ -37,13 +44,12 @@ public class Mazo {
 		return aux;
 	}
 	//Verifica si la carta no fue usada, y agrega esa carta en caso contrario.
-	private boolean estaUsada(Cartas[] lista, Cartas c) {
+	private static boolean estaUsada(Cartas[] lista, Cartas c) {
 		for (int i=0;i<lista.length;i++) {
-			if (lista[i]==c) {
+			if (lista[i].numero==c.numero) {
 				return true;
 			}
 		}
-		cartasUsadas= agregarAUsadas(cartasUsadas, c);
 		return false;
 	}
 	public Cartas getCarta() {
@@ -51,6 +57,8 @@ public class Mazo {
 		for (int i=0;i<=5;i++) {
 			if (estaUsada(cartasUsadas,cartas[k])==false) {
 				return cartas[k];
+			}else {
+				cartasUsadas= agregarAUsadas(cartasUsadas,cartas[k]);
 			}
 		}
 		return cartas[1];
