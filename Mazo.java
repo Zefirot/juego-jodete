@@ -1,4 +1,4 @@
-package juego;
+package nigga;
 
 import java.util.Random;
 
@@ -24,13 +24,6 @@ public class Mazo {
 			cartas[k1]=aux;
 		}
 	}
-	/*
-	public void imprimirMazo(Cartas[] lista) {
-		for (int i=0;i<lista.length;i++) {
-			System.out.print(lista[i].numero+" ");
-			System.out.print(lista[i].palo+" ");
-		}
-	}*/
 	//Funcion que se encarga de agregar las cartas repetidas
 	private static Cartas[] agregarAUsadas(Cartas[] lista , Cartas c) {
 		Cartas[] aux= new Cartas[lista.length];
@@ -55,7 +48,7 @@ public class Mazo {
 	public Cartas getCarta() {
 		int k=r.nextInt(cartas.length);
 		for (int i=0;i<=5;i++) {
-			if (estaUsada(cartasUsadas,cartas[k])==false) {
+			if (estaUsada(cartasUsadas,cartas[k])==false && cartas[i]!=null) {
 				return cartas[k];
 			}else {
 				cartasUsadas= agregarAUsadas(cartasUsadas,cartas[k]);

@@ -1,7 +1,8 @@
-package juego;
+package nigga;
+
 
 public class Jodete {
-	private Cartas[] mano= new Cartas[5];  //Mano principal del jugador.
+	public Cartas[] mano= new Cartas[5];  //Mano principal del jugador.
 	public Jodete() {
 		this.mano= crearMano(mano);
 	}
@@ -12,7 +13,7 @@ public class Jodete {
 		}
 		return lista;
 	}
-	public void acomodar() {
+	public void acomodarInicio() {
 		Cartas[] aux= new Cartas[5];
 		int j=0;
 		for (int i=9;i>=5;i--) {
@@ -23,8 +24,11 @@ public class Jodete {
 	}
 	public void mostrar() {
 		for (int i=0;i<mano.length;i++) {
-			System.out.print(mano[i].palo+" ");
-			System.out.println(mano[i].numero+" ");
+			if (mano[i]!=null) {
+				System.out.print("Palo: "+mano[i].palo+" ");
+				System.out.println("Numero: "+mano[i].numero+" ");
+				
+			}
 			
 		}
 	}
@@ -33,9 +37,9 @@ public class Jodete {
 		
 	}
 	public Cartas jugarCarta(int n) {
-		Cartas aux =new Cartas(1,1);
+		Cartas aux =null;
 		for (int i=0;i<mano.length;i++) {
-			if (i==n-1) {
+			if (i==n-1 && mano[i]!=null) {
 				aux= new Cartas(mano[i].palo,mano[i].numero);
 				mano=quitarCarta(mano,mano[i]);
 			}
@@ -55,20 +59,32 @@ public class Jodete {
 	private static Cartas[] agregarCarta(Cartas[] lista,Cartas c) {
 		Cartas[] aux= new Cartas[lista.length+1];
 		for (int i=0; i<aux.length;i++) {
-			if (i==aux.length-1 ) {
+			if (i==aux.length-1 && c!=null) {
 				aux[i]=c;
-			}else {
+			}else  {
 				aux[i]=lista[i];
 			}
 		}
 		return aux;
 	}
+	//Cuando se agrega una carta al final de la mano y despues de haber jugado 2 cartas.
+	//Quedan 3 cartas para usar y 2 nulls, por ende acomodarMano no funca
+	public void acomodarMano() {
+		for (int i=0;i<mano.length-1;i++) {
+			if (mano[i]==null && mano[i+1]!=null) {
+				Cartas aux= mano[i+1];
+				mano[i+1]=null;
+				mano[i]=aux;
+			}
+		}
+	}
 	private static Cartas[] quitarCarta(Cartas[] lista, Cartas c) {
 		Cartas[] aux=new Cartas[lista.length];
 		for (int i=0;i<aux.length;i++) {
-			if (lista[i]==c) {
-			}else {
+			if (lista[i]!=c) {
 				aux[i]=lista[i];
+			} else{
+				aux[i]=null;
 			}
 		}
 		return aux;
