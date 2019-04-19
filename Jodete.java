@@ -1,4 +1,4 @@
-package nigga;
+package juego;
 
 
 public class Jodete {
@@ -25,8 +25,9 @@ public class Jodete {
 	public void mostrar() {
 		for (int i=0;i<mano.length;i++) {
 			if (mano[i]!=null) {
-				System.out.print("Palo: "+mano[i].palo+" ");
-				System.out.println("Numero: "+mano[i].numero+" ");
+				System.out.print(mano[i].paloNombre+" ");
+				//System.out.print("Palo: "+mano[i].palo+" ");
+				System.out.println(mano[i].numero+" ");
 				
 			}
 			
@@ -67,14 +68,18 @@ public class Jodete {
 		}
 		return aux;
 	}
-	//Cuando se agrega una carta al final de la mano y despues de haber jugado 2 cartas.
-	//Quedan 3 cartas para usar y 2 nulls, por ende acomodarMano no funca
+	//Recorre la mano y encuentra donde se ubica un null.
+	//Cuando se encuentra con un null recorre otra vez la lista hasta encontrar una carta que nos null.
 	public void acomodarMano() {
-		for (int i=0;i<mano.length-1;i++) {
-			if (mano[i]==null && mano[i+1]!=null) {
-				Cartas aux= mano[i+1];
-				mano[i+1]=null;
-				mano[i]=aux;
+		for (int i=0;i<mano.length;i++) {
+			if (mano[i]==null) {
+				for (int k=i;k<mano.length;k++) {
+					if (mano[k]!=null) {
+						mano[i]=mano[k];
+						mano[k]=null;
+						return;
+					}
+				}
 			}
 		}
 	}
