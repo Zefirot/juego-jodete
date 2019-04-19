@@ -1,10 +1,10 @@
-package nigga;
+package juego;
 
 import java.util.Random;
 
 public class Mazo {
 	public Cartas[] cartas;
-	public Cartas [] cartasUsadas=new Cartas[0];
+	public Cartas [] cartasUsadas=new Cartas[48];
 	Random r=new Random();
 	public Mazo() {
 		this.cartas=new Cartas[48];
@@ -28,10 +28,8 @@ public class Mazo {
 	private static Cartas[] agregarAUsadas(Cartas[] lista , Cartas c) {
 		Cartas[] aux= new Cartas[lista.length];
 		for (int i=0;i<aux.length;i++) {
-			if (i==aux.length-1) {
+			if (lista[i]==null) {
 				aux[i]=c;
-			}else {
-				aux[i]=lista[i];
 			}
 		}
 		return aux;
@@ -39,7 +37,7 @@ public class Mazo {
 	//Verifica si la carta no fue usada, y agrega esa carta en caso contrario.
 	private static boolean estaUsada(Cartas[] lista, Cartas c) {
 		for (int i=0;i<lista.length;i++) {
-			if (lista[i].numero==c.numero) {
+			if (lista[i]==c) {
 				return true;
 			}
 		}
