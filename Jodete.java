@@ -9,6 +9,7 @@ public class Jodete {
 	public void mostrar() {
 		for (int i=0;i<mano.length;i++) {
 			if (mano[i]!=null) {
+				System.out.print(i+" ");
 				System.out.print(mano[i].paloNombre+" ");
 				System.out.println(mano[i].numero+" ");
 			}
@@ -48,15 +49,11 @@ public class Jodete {
 	}
 	//Cuando se encuentra con un null recorre otra vez la lista hasta encontrar una carta que no sea null.
 	public void acomodarMano() {
-		for (int i=0;i<mano.length;i++) {
-			if (mano[i]==null) {
-				for (int k=i;k<mano.length;k++) {
-					if (mano[k]!=null) {
-						mano[i]=mano[k];
-						mano[k]=null;
-						return;
-					}
-				}
+		for (int i=0;i<mano.length-1;i++) {
+			if (mano[i]==null && mano[i+1]!=null) {
+				Cartas aux= mano[i+1];
+				mano[i+1]=null;
+				mano[i]=aux;
 			}
 		}
 	}

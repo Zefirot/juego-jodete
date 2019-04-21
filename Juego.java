@@ -45,6 +45,14 @@ public class Juego {
 						System.out.println(cartaAux.paloNombre+" "+cartaAux.numero);
 						char m = input.next().charAt(0);
 						if (m=='s') {
+							if (cartaAux.palo!=cartaPrincipal.palo && cartaAux.numero!=cartaPrincipal.numero) {
+									System.out.println("Mentiste :c");
+									System.out.println("Ahora seras castigado");
+									jugador1.recibirCarta(mazo.getCarta());
+									jugador1.acomodarMano();
+									jugador1.recibirCarta(mazo.getCarta());
+									jugador1.acomodarMano();
+								}
 							jugador1.recibirCarta(cartaUtilizada);
 							jugador1.acomodarMano();
 						}else {
@@ -62,9 +70,13 @@ public class Juego {
 					if (aux2 ==null) {
 						jugador2.robarCarta(mazo.getCarta());
 						jugador2.acomodarMano();
+						System.out.println(" ");
 						System.out.println("Jugador 2 acaba de ser penalizado");
+						System.out.println(" ");
 					}else {
-					System.out.println("Jugador 2 ha realizado una jugada exitosa");
+						System.out.println(" ");
+						System.out.println("Jugador 2 ha realizado una jugada exitosa");
+						System.out.println(" ");
 					}
 				}
 			}

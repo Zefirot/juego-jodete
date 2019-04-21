@@ -32,15 +32,11 @@ public class JugadorJodete {
 		return cont;
 	}
 	public void acomodarMano() {
-		for (int i=0;i<mano.length;i++) {
-			if (mano[i]==null) {
-				for (int k=i;k<mano.length;k++) {
-					if (mano[k]!=null) {
-						mano[i]=mano[k];
-						mano[k]=null;
-						return;
-					}
-				}
+		for (int i=0;i<mano.length-1;i++) {
+			if (mano[i]==null && mano[i+1]!=null) {
+				Cartas aux= mano[i+1];
+				mano[i+1]=null;
+				mano[i]=aux;
 			}
 		}
 	}
