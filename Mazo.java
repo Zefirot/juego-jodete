@@ -6,6 +6,7 @@ public class Mazo {
 	public Cartas[] cartas;
 	public Cartas [] cartasUsadas=new Cartas[48];
 	Random r=new Random();
+	
 	public Mazo() {
 		this.cartas=new Cartas[48];
 		int j=0;
@@ -15,6 +16,7 @@ public class Mazo {
 			}
 		}
 	}
+	
 	public void mezclar() {
 		for (int i=0;i<=1000;i++) {
 			int k= r.nextInt(cartas.length);
@@ -23,6 +25,26 @@ public class Mazo {
 			cartas[k]=cartas[k1];
 			cartas[k1]=aux;
 		}
+	}
+	public Cartas getCarta() {
+		int k=r.nextInt(cartas.length);
+		for (int i=0;i<=5;i++) {
+			if (estaUsada(cartasUsadas,cartas[k])==false && cartas[i]!=null) {
+				return cartas[k];
+			}else if (cartas[i]!=null){
+				cartasUsadas= agregarAUsadas(cartasUsadas,cartas[k]);
+			}
+		}
+		return cartas[1];
+	}
+	//Verifica si la carta no fue usada, y agrega esa carta en caso contrario.
+	private static boolean estaUsada(Cartas[] lista, Cartas c) {
+		for (int i=0;i<lista.length;i++) {
+			if (lista[i]==c) {
+				return true;
+			}
+		}
+		return false;
 	}
 	//Funcion que se encarga de agregar las cartas repetidas
 	private static Cartas[] agregarAUsadas(Cartas[] lista , Cartas c) {
@@ -34,24 +56,4 @@ public class Mazo {
 		}
 		return aux;
 	}
-	//Verifica si la carta no fue usada, y agrega esa carta en caso contrario.
-	private static boolean estaUsada(Cartas[] lista, Cartas c) {
-		for (int i=0;i<lista.length;i++) {
-			if (lista[i]==c) {
-				return true;
-			}
-		}
-		return false;
-	}
-	public Cartas getCarta() {
-		int k=r.nextInt(cartas.length);
-		for (int i=0;i<=5;i++) {
-			if (estaUsada(cartasUsadas,cartas[k])==false && cartas[i]!=null) {
-				return cartas[k];
-			}else {
-				cartasUsadas= agregarAUsadas(cartasUsadas,cartas[k]);
-			}
-		}
-		return cartas[1];
-	}
-}
+}	

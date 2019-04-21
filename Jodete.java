@@ -2,47 +2,37 @@ package juego;
 
 
 public class Jodete {
-	public Cartas[] mano= new Cartas[5];  //Mano principal del jugador.
+	public Cartas[] mano;  //Mano principal del jugador.
 	public Jodete() {
-		this.mano= crearMano(mano);
-	}
-	//Crea una mano con cartas "imaginarias", asi la mano es mas facil de manejar.
-	private static Cartas[] crearMano(Cartas[] lista) {
-		for (int i=0;i<lista.length;i++) {
-			lista[i]=new Cartas(i,i);
-		}
-		return lista;
-	}
-	public void acomodarInicio() {
-		Cartas[] aux= new Cartas[5];
-		int j=0;
-		for (int i=9;i>=5;i--) {
-			aux[j]=mano[i];
-			j++;
-		}
-		mano=aux;
+		this.mano= new Cartas[48];
 	}
 	public void mostrar() {
 		for (int i=0;i<mano.length;i++) {
 			if (mano[i]!=null) {
 				System.out.print(mano[i].paloNombre+" ");
-				//System.out.print("Palo: "+mano[i].palo+" ");
 				System.out.println(mano[i].numero+" ");
-				
 			}
 			
 		}
 	}
 	public void recibirCarta(Cartas c) {
-		mano= agregarCarta(mano,c);
+		for (int i=0;i<mano.length;i++) {
+			if (mano[i]==null) {
+				mano[i]=c;
+				return;
+			}
+		}
 		
 	}
 	public Cartas jugarCarta(int n) {
+		int aux1=n-1;
 		Cartas aux =null;
 		for (int i=0;i<mano.length;i++) {
-			if (i==n-1 && mano[i]!=null) {
+			if (i==aux1 && mano[i]!=null) {
 				aux= new Cartas(mano[i].palo,mano[i].numero);
-				mano=quitarCarta(mano,mano[i]);
+				mano[i]=null;
+			}else if(i==n-1 && mano[i]==null) {
+				throw new NullPointerException("La carta que elegiste no tiene posicion");
 			}
 		}
 		return aux;
@@ -56,20 +46,7 @@ public class Jodete {
 		}
 		return cont;
 	}
-	//Agrega la carta a la mano.
-	private static Cartas[] agregarCarta(Cartas[] lista,Cartas c) {
-		Cartas[] aux= new Cartas[lista.length+1];
-		for (int i=0; i<aux.length;i++) {
-			if (i==aux.length-1 && c!=null) {
-				aux[i]=c;
-			}else  {
-				aux[i]=lista[i];
-			}
-		}
-		return aux;
-	}
-	//Recorre la mano y encuentra donde se ubica un null.
-	//Cuando se encuentra con un null recorre otra vez la lista hasta encontrar una carta que nos null.
+	//Cuando se encuentra con un null recorre otra vez la lista hasta encontrar una carta que no sea null.
 	public void acomodarMano() {
 		for (int i=0;i<mano.length;i++) {
 			if (mano[i]==null) {
@@ -82,16 +59,5 @@ public class Jodete {
 				}
 			}
 		}
-	}
-	private static Cartas[] quitarCarta(Cartas[] lista, Cartas c) {
-		Cartas[] aux=new Cartas[lista.length];
-		for (int i=0;i<aux.length;i++) {
-			if (lista[i]!=c) {
-				aux[i]=lista[i];
-			} else{
-				aux[i]=null;
-			}
-		}
-		return aux;
 	}
 }

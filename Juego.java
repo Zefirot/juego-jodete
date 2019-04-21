@@ -4,48 +4,77 @@ import java.util.Scanner;
 
 public class Juego {
 	public static void main(String[] args) {
-		Mazo mazo= new Mazo();
-		Cartas cartaMazo=null; //Creo una carta que va agarrar la del mazo.
-		Cartas cartaMano=null; //Creo una carta que va a agarrar la de la mano para guardarla.
-		boolean aux=true;
+		Mazo mazo = new Mazo();
+		Jodete jugador1 = new Jodete();
+		JugadorJodete jugador2 = new JugadorJodete();
 		Scanner input = new Scanner(System.in);
-		mazo.mezclar();
-		Jodete j= new Jodete();
-		//Crea una mano principal para que el jugador pueda tener cartas antes de empezar el juego.
-		for (int i=0;i<=5;i++) {
-			j.recibirCarta(mazo.getCarta());
+		//Variables auxiliares para guardar el transcurso del juego y ser mas facil de leer.
+		Cartas cartaPrincipal;
+		Cartas cartaUtilizada;
+		boolean sigue = true;
+		//Acomodar las cartas de cada jugador.
+		for (int i=0;i<5;i++) {
+			jugador1.recibirCarta(mazo.getCarta());
+			jugador1.acomodarMano();
 		}
-		j.acomodarInicio();
-		while (aux) {
-			System.out.println("Estas son tus cartas:");
-			System.out.println("--------------------");
-			j.mostrar();
-			System.out.println("La carta del mazo es...");
-			cartaMazo=mazo.getCarta();
-			System.out.print(cartaMazo.paloNombre+" ");
-			System.out.print(cartaMazo.numero+" ");
-			int cont= input.nextInt();
-			cartaMano=j.jugarCarta(cont);
-			j.acomodarMano();
-			if (cartaMano.numero!=cartaMazo.numero && cartaMano.palo!=cartaMazo.palo) {
-				Cartas aux1=mazo.getCarta();
-				System.out.println(cartaMano.palo);
-				System.out.println("La carta que agarraste del mazo es: ");
-				System.out.println("Palo: "+aux1.palo+" Numero: "+aux1.numero);
-				char decision= input.next().charAt(0);
-				if (decision=='s') {  //Se calcula si el jugador necesita la carta que acaba de agarrar del mazo.
-					j.recibirCarta(cartaMano);
-					j.acomodarMano();
-				}else {  //En caso de no necesitarla se le sumara la carta que habia tirado anteriormente...
-				j.recibirCarta(cartaMano);  //Y tambien se le suma una nueva carta del mazo.
-				j.acomodarMano();
-				j.recibirCarta(aux1);
-				j.acomodarMano();
+		for (int k=0;k<5;k++) {
+			jugador2.robarCarta(mazo.getCarta());
+			jugador2.acomodarMano();
+		}
+		//Comienzo del juego.
+		while (sigue) {
+			for (int l=0;l<2;l++) {
+				//Detecta la carta que sale del mazo, osea una carta random.
+				cartaPrincipal=mazo.getCarta();
+				if (l==0) { //Turno del usuario.
+					System.out.println("-------------");
+					System.out.println("--Jugador 1--");
+					System.out.println("-------------");
+					System.out.println("Estas son tus cartas: ");
+					jugador1.mostrar();
+					System.out.println("-------------");
+					System.out.println("Esta es la carta que esta sobre la mesa: ");
+					System.out.println("-------------");
+					System.out.println(cartaPrincipal.paloNombre+" "+cartaPrincipal.numero);
+					int n = input.nextInt();
+					cartaUtilizada= jugador1.jugarCarta(n);
+					jugador1.acomodarMano();
+					if (cartaUtilizada.numero!=cartaPrincipal.numero && cartaUtilizada.palo!=cartaPrincipal.palo) {
+						Cartas cartaAux= mazo.getCarta();
+						System.out.println("La carta que agarraste del mazo es: ");
+						System.out.println(cartaAux.paloNombre+" "+cartaAux.numero);
+						char m = input.next().charAt(0);
+						if (m=='s') {
+							jugador1.recibirCarta(cartaUtilizada);
+							jugador1.acomodarMano();
+						}else {
+							jugador1.recibirCarta(cartaUtilizada);
+							jugador1.acomodarMano();
+							jugador1.recibirCarta(mazo.getCarta());
+							jugador1.acomodarMano();
+						}
+					}
+				}else { //Turno de la ia.
+					System.out.println("-------------");
+					System.out.println("--Jugador 2--");
+					System.out.println("-------------");
+					Cartas aux2= jugador2.jugarCartaContra(cartaPrincipal);
+					if (aux2 ==null) {
+						jugador2.robarCarta(mazo.getCarta());
+						jugador2.acomodarMano();
+						System.out.println("Jugador 2 acaba de ser penalizado");
+					}else {
+					System.out.println("Jugador 2 ha realizado una jugada exitosa");
+					}
 				}
 			}
-			if (j.cantidadCartas()==0) {
-				System.out.println("¡¡Felicidades Ganaste!!");
-				aux=false;
+			if (jugador1.cantidadCartas()==0) {
+				sigue=false;
+				System.out.println("Felicades Jugador 1, Ganaste");
+			}
+			if (jugador2.cantidadDeCartas()==0) {
+				sigue=false;
+				System.out.println("Felicades Jugador 2, Ganaste");
 			}
 		}
 	}
